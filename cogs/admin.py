@@ -20,17 +20,18 @@ class Admin(commands.Cog):
         if check is None:
             getRole = discord.utils.get(ctx.guild.roles, name="Mute")
             await user.add_roles(getRole)
-            embed = discord.Embed(title="처벌내역",description=f"처리한관리자:{ctx.author}\n\n디스코드 정보:{user}\n\n디스코드 ID:{user.id}\n\n처벌사유:없음")
+            embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {user.mention}\n\n디스코드 ID: ``{user.id}``\n\n처벌수위: ``뮤트``\n\n처벌사유: ``지정되지 않았습니다.``\n\n처리한 관리자: {ctx.author.mention}")
             await ctx.send(embed=embed)
 
         if check is not None:
             if check == '해제':
                 getRole = discord.utils.get(ctx.guild.roles, name="Mute")
                 await user.remove_roles(getRole)
+                await ctx.send("\U00002705",delete_after=5)
             else:
                 getRole = discord.utils.get(ctx.guild.roles, name="Mute")
                 await user.add_roles(getRole)
-                embed = discord.Embed(title="처벌내역",description=f"처리한관리자:{ctx.author}\n\n디스코드정보:{user}\n\n디스코드 id:{user.id}\n\n처벌사유:{check}")
+                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드정보: {user.mention}\n\n디스코드 ID: ``{user.id}``\n\n처벌수위: ``뮤트``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
                 await ctx.send(embed=embed)
         
 def setup(bot):

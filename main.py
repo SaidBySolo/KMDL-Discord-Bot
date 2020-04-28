@@ -8,7 +8,8 @@ class Bot(commands.Bot):
         super().__init__(command_prefix="!")
 
 def load_cogs(bot):
-    extensions = ['cogs.admin',
+    extensions = ['jishaku',
+                'cogs.admin',
                 'cogs.events']
 
     failed = []

@@ -52,10 +52,13 @@ class Admin(commands.Cog):
         if timeday == '리로드':
             chlist = []
             if user == ctx.author:
+                overwrite = discord.PermissionOverwrite()
+                overwrite.send_messages=False
+                overwrite.add_reactions=False
                 wait = await ctx.send(embed=discord.Embed(title="처리중 입니다.",descriptsion="잠시만기다려주세요...."))
                 for channel in ctx.guild.channels:
                     chlist.append(channel)
-                    await channel.set_permissions(getRole, send_messages=False,add_reactions=False)
+                    await channel.set_permissions(getRole, overwrite=overwrite)
                 await wait.edit(embed=discord.Embed(title=f"완료 총{len(chlist)}개"))
                 channel = self.bot.get_channel(706489228619546654)
                 await channel.send(f"{ctx.author}가 채널 재설정을 완료했습니다.")

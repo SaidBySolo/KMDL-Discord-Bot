@@ -1,6 +1,10 @@
 import discord
 import asyncio
 from discord.ext import commands
+import datetime
+
+n = datetime.datetime.now()
+now = f'{n.year}. {n.month}. {n.day}.'
 
 
 class Admin(commands.Cog):
@@ -76,7 +80,7 @@ class Admin(commands.Cog):
         
             else:
                 iduser = await replacemention(user)
-                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {user.mention}\n\n디스코드 ID: ``{user.id}``\n\n처벌수위: ``뮤트/{timeday}일{timehour}시간{timeminute}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
+                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {iduser.mention}\n\n디스코드 ID: ``{iduser.id}``\n\n처벌수위: ``뮤트/{timeday}일{timehour}시간{timeminute}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
                 await ctx.send(embed=embed)
                 await ctx.guild.ban(iduser)
                 channel = self.bot.get_channel(706489228619546654)
@@ -120,6 +124,30 @@ class Admin(commands.Cog):
             await ctx.send(f"{author.mention}님이 메시지 ``{number}개``를 삭제했어요", delete_after=5)
         else:
             await ctx.send(f"{author.mention}님이 제한을 초과했습니다.", delete_after=5)
+
+    @commands.command(name="공지")
+    @commands.has_permissions(administrator=True)
+    async def _notice(self, ctx, *, dec):
+        channel = self.bot.get_channel(706482546048761919)
+        embed=discord.Embed(title="📢공지사항", description=dec)
+        embed.set_thumbnail(url="https://media.discordapp.net/attachments/704515498087284797/708127524944871424/2020-05-08_10_25_01.png")
+        embed.add_field(name="공식 카카오톡 오픈채팅", value="[접속하기](https://open.kakao.com/o/g9sUpJac)", inline=False)
+        embed.add_field(name='파트너쉽 디스코드', value="[모델링 크리에이터](https://discord.gg/fukNnsC)\n[하이퀄리티](https://discord.gg/2gxSqWu)", inline=True)
+        embed.set_footer(icon_url=ctx.author.avatar_url,text=f"공지 작성자: {ctx.author} • {now}")
+        await channel.send(embed=embed)
+
+
+    @commands.command(name="전체공지")
+    @commands.has_permissions(administrator=True)
+    async def _allnotice(self, ctx, *, dec):
+        channel = self.bot.get_channel(706482546048761919)
+        embed=discord.Embed(title="📢공지사항", description=dec)
+        embed.set_thumbnail(url="https://media.discordapp.net/attachments/704515498087284797/708127524944871424/2020-05-08_10_25_01.png")
+        embed.add_field(name="공식 카카오톡 오픈채팅", value="[접속하기](https://open.kakao.com/o/g9sUpJac)", inline=False)
+        embed.add_field(name='파트너쉽 디스코드', value="[모델링 크리에이터](https://discord.gg/fukNnsC)\n[하이퀄리티](https://discord.gg/2gxSqWu)", inline=True)
+        embed.set_footer(icon_url=ctx.author.avatar_url,text=f"공지 작성자: {ctx.author} • {now}")
+        await channel.send("@everyone")
+        await channel.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Admin(bot))

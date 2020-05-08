@@ -27,19 +27,23 @@ class Admin(commands.Cog):
             resulttime = (int(timeday) * 86400)+(int(timehour) * 3600)+(int(timeminute) * 60)
             if resulttime == 0:
                 getRole = discord.utils.get(ctx.guild.roles, name="Mute")
-                await ctx.user.add_roles(getRole)
-                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {ctx.user.mention}\n\n디스코드 ID: ``{ctx.user.id}``\n\n처벌수위: ``뮤트/영구``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
+                await user.add_roles(getRole)
+                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {user.mention}\n\n디스코드 ID: ``{user.id}``\n\n처벌수위: ``뮤트/영구``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
                 await ctx.send(embed=embed)
+                channel = self.bot.get_channel(706489228619546654)
+                await channel.send(embed=embed)
             else:
                 getRole = discord.utils.get(ctx.guild.roles, name="Mute")
-                await ctx.user.add_roles(getRole)
-                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {ctx.user.mention}\n\n디스코드 ID: ``{ctx.user.id}``\n\n처벌수위: ``뮤트/{round(resulttime/60)}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
+                await user.add_roles(getRole)
+                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {user.mention}\n\n디스코드 ID: ``{user.id}``\n\n처벌수위: ``뮤트/{timeday}일{timehour}시간{timeminute}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
                 await ctx.send(embed=embed)
+                channel = self.bot.get_channel(706489228619546654)
+                await channel.send(embed=embed)
                 await asyncio.sleep(resulttime)
-                await ctx.user.remove_roles(getRole)
+                await user.remove_roles(getRole)
         elif timeday == '해제':
             getRole = discord.utils.get(ctx.guild.roles, name="Mute")
-            await ctx.user.remove_roles(getRole)
+            await user.remove_roles(getRole)
             await ctx.send("\U00002705",delete_after=5)
 
     @commands.has_permissions(administrator=True)
@@ -65,14 +69,18 @@ class Admin(commands.Cog):
             if resulttime == 0:
                 iduser = await replacemention(user)
                 embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {iduser.mention}\n\n디스코드 ID: ``{iduser.id}``\n\n처벌수위: ``밴/영구``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
+                channel = self.bot.get_channel(706489228619546654)
+                await channel.send(embed=embed)
                 await ctx.send(embed=embed)
                 await ctx.guild.ban(iduser)
         
             else:
                 iduser = await replacemention(user)
-                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {iduser.mention}\n\n디스코드 ID: ``{iduser.id}``\n\n처벌수위: ``밴/{round(resulttime/60)}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
+                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {user.mention}\n\n디스코드 ID: ``{user.id}``\n\n처벌수위: ``뮤트/{timeday}일{timehour}시간{timeminute}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
                 await ctx.send(embed=embed)
                 await ctx.guild.ban(iduser)
+                channel = self.bot.get_channel(706489228619546654)
+                await channel.send(embed=embed)
                 await asyncio.sleep(resulttime)
                 await ctx.guild.unban(iduser)
         elif timeday == '해제':
@@ -82,16 +90,36 @@ class Admin(commands.Cog):
     
     @commands.has_permissions(administrator=True)
     @commands.command(name="역할지급")
-    async def _addrole(self, ctx, role:discord.Role, getrole:discord.Role):
-        SearchRole = discord.utils.get(ctx.guild.roles, name=getrole.name)
-        for member in role.members:
-            await member.add_roles(SearchRole)
-            
+    async def _addrole(self, ctx):
+        SearchRole = discord.utils.get(ctx.guild.roles, name="🎉디스코드 인원 200명 달성 기념🎉")
+        asdf = [member for member in ctx.guild.members]
+        for x in SearchRole.members:
+            asdf.remove(x)
+        for s in asdf:
+            print("포문진입")
+            await ctx.send(f"{s}지급")
+            print("역할지급시작")
+            await s.add_roles(SearchRole)
+            print("지급완료")
+        
     @commands.has_permissions(administrator=True)
     @commands.command(name="역할제거")
-    async def _removerole(self, ctx, role:discord.Role, getrole:discord.Role):
+    async def _removerole(self, ctx, getrole:discord.Role):
         SearchRole = discord.utils.get(ctx.guild.roles, name=getrole.name)
-        for member in role.members:
-            await member.remove_roles(SearchRole)
+        for member in ctx.guild.members:
+            if SearchRole in member.roles:
+                await member.remove_roles(SearchRole)
+                print(f"{member}제거")
+    
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def 삭제(self, ctx, number: int = 1):
+        author = ctx.author
+        if number < 101:
+            await ctx.channel.purge(limit = number + 1)
+            await ctx.send(f"{author.mention}님이 메시지 ``{number}개``를 삭제했어요", delete_after=5)
+        else:
+            await ctx.send(f"{author.mention}님이 제한을 초과했습니다.", delete_after=5)
+
 def setup(bot):
     bot.add_cog(Admin(bot))

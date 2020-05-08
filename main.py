@@ -2,7 +2,9 @@ import discord
 from discord.ext import commands
 import json
 
-token = "Token Here"
+
+token = "Token"
+
 class Bot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix="!")
@@ -10,7 +12,8 @@ class Bot(commands.Bot):
 def load_cogs(bot):
     extensions = ['jishaku',
                 'cogs.admin',
-                'cogs.events']
+                'cogs.events',
+                'cogs.github']
 
     failed = []
 

@@ -25,7 +25,7 @@ class Admin(commands.Cog):
             muteRole = await ctx.guild.create_role(name="Mute")
             getRole = discord.utils.get(ctx.guild.roles, name="Mute")
             for channel in ctx.guild.channels:
-                await channel.set_permissions(getRole, send_messages=False, read_messages=True, read_message_history=True)
+                await channel.set_permissions(getRole, send_messages=False,add_reactions=False)
 
         if timeday is not None and timehour is not None and timeminute is not None:
             resulttime = (int(timeday) * 86400)+(int(timehour) * 3600)+(int(timeminute) * 60)
@@ -45,10 +45,22 @@ class Admin(commands.Cog):
                 await channel.send(embed=embed)
                 await asyncio.sleep(resulttime)
                 await user.remove_roles(getRole)
-        elif timeday == '해제':
+        if timeday == '해제':
             getRole = discord.utils.get(ctx.guild.roles, name="Mute")
             await user.remove_roles(getRole)
             await ctx.send("\U00002705",delete_after=5)
+        if timeday == '리로드':
+            chlist = []
+            if user == ctx.author:
+                wait = await ctx.send(embed=discord.Embed(title="처리중 입니다.",descriptsion="잠시만기다려주세요...."))
+                for channel in ctx.guild.channels:
+                    chlist.append(channel)
+                    await channel.set_permissions(getRole, send_messages=False,add_reactions=False)
+                await wait.edit(embed=discord.Embed(title=f"완료 총{len(chlist)}개"))
+                channel = self.bot.get_channel(706489228619546654)
+                await channel.send(f"{ctx.author}가 채널 재설정을 완료했습니다.")
+            else:
+                await ctx.send(embed=discord.Embed(color=0xf10e0e,title="채널 재설정을 시도하시나요?",description="확인을 위해 자신을 맨션해주세요"))
 
     @commands.has_permissions(administrator=True)
     @commands.command(name="밴")

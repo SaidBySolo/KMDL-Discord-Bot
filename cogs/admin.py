@@ -95,7 +95,7 @@ class Admin(commands.Cog):
         
             else:
                 iduser = await replacemention(user)
-                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {iduser.mention}\n\n디스코드 ID: ``{iduser.id}``\n\n처벌수위: ``뮤트/{timeday}일{timehour}시간{timeminute}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
+                embed = discord.Embed(color=0xf10e0e, title="처벌내역",description=f"디스코드 정보: {iduser.mention}\n\n디스코드 ID: ``{iduser.id}``\n\n처벌수위: ``밴/{timeday}일{timehour}시간{timeminute}분``\n\n처벌사유: ``{check}``\n\n처리한 관리자: {ctx.author.mention}")
                 await ctx.send(embed=embed)
                 await ctx.guild.ban(iduser)
                 channel = self.bot.get_channel(706489228619546654)

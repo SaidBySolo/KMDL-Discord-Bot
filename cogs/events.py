@@ -16,6 +16,7 @@ class Events(commands.Cog):
         embed = discord.Embed(title="Log", description=f'``{message.author.id}``')
         embed.set_thumbnail(url=message.author.avatar_url)
         embed.add_field(name="Name",value=message.Name)
+        embed.add_field(name="Channel name",value=message.channel.name)
         embed.add_field(name="Timestamp",value=message.timestamp)
         embed.add_field(name="Content", value=message.content)
         await channel.send(embed=embed)

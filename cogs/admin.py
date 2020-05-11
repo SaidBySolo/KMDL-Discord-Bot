@@ -146,8 +146,6 @@ class Admin(commands.Cog):
         channel = self.bot.get_channel(706482546048761919)
         embed=discord.Embed(title="📢공지사항", description=dec)
         embed.set_thumbnail(url="https://media.discordapp.net/attachments/704515498087284797/708127524944871424/2020-05-08_10_25_01.png")
-        embed.add_field(name="공식 카카오톡 오픈채팅", value="[접속하기](https://open.kakao.com/o/g9sUpJac)", inline=False)
-        embed.add_field(name='파트너쉽 디스코드', value="[모델링 크리에이터](https://discord.gg/fukNnsC)\n[하이퀄리티](https://discord.gg/2gxSqWu)", inline=True)
         embed.set_footer(icon_url=ctx.author.avatar_url,text=f"공지 작성자: {ctx.author} • {now}")
         await channel.send(embed=embed)
 
@@ -158,8 +156,6 @@ class Admin(commands.Cog):
         channel = self.bot.get_channel(706482546048761919)
         embed=discord.Embed(title="📢공지사항", description=dec)
         embed.set_thumbnail(url="https://media.discordapp.net/attachments/704515498087284797/708127524944871424/2020-05-08_10_25_01.png")
-        embed.add_field(name="공식 카카오톡 오픈채팅", value="[접속하기](https://open.kakao.com/o/g9sUpJac)", inline=False)
-        embed.add_field(name='파트너쉽 디스코드', value="[모델링 크리에이터](https://discord.gg/fukNnsC)\n[하이퀄리티](https://discord.gg/2gxSqWu)", inline=True)
         embed.set_footer(icon_url=ctx.author.avatar_url,text=f"공지 작성자: {ctx.author} • {now}")
         await channel.send("@everyone")
         await channel.send(embed=embed)

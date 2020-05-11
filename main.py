@@ -3,7 +3,7 @@ from discord.ext import commands
 import json
 
 
-token = "NzA0MTcxNzc0MjMyODg3MzQ2.XremcQ.rHcHs1u96bhbUlLyhiEi15kJN8E"
+token = "Token paste here"
 
 class Bot(commands.Bot):
     def __init__(self):

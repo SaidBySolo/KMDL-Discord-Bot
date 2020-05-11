@@ -12,14 +12,16 @@ class Events(commands.Cog):
         
     @commands.Cog.listener()
     async def on_message(self, message):
+        time = message.created_at
         channel = self.bot.get_channel(709231709392207953)
-        embed = discord.Embed(title="Log", description=f'``{message.author.id}``')
+        embed = discord.Embed(title="Log", description=f'DID:``{message.author.id}``\nFull Name:``{message.author}``')
         embed.set_thumbnail(url=message.author.avatar_url)
-        embed.add_field(name="Name",value=message.author)
-        embed.add_field(name="Channel name",value=message.channel)
-        embed.add_field(name="Timestamp",value=message.timestamp)
+        embed.add_field(name="Name",value=message.author.mention)
+        embed.add_field(name="Channel name",value=f"{message.channel.mention}")
+        embed.add_field(name="Timestamp",value=f"{str(time.year)}-{str(time.month)}-{str(time.day)}\n{str(time.hour)}:{str(time.minute)}:{str(time.second)}")
         embed.add_field(name="Content", value=message.content)
         await channel.send(embed=embed)
-        await bot.process_commands(message)
+        await self.bot.process_commands(message)
+
 def setup(bot):
     bot.add_cog(Events(bot))

@@ -153,7 +153,7 @@ class Admin(commands.Cog):
     @commands.command(name="전체공지")
     @commands.has_permissions(administrator=True)
     async def _allnotice(self, ctx, *, dec):
-        channel = self.bot.get_channel(709434311060750397)
+        channel = self.bot.get_channel(709436773939281950)
         embed=discord.Embed(title="📢공지사항", description=dec)
         embed.set_thumbnail(url="https://media.discordapp.net/attachments/704515498087284797/708127524944871424/2020-05-08_10_25_01.png")
         embed.set_footer(icon_url=ctx.author.avatar_url,text=f"공지 작성자: {ctx.author} • {now}")
